@@ -50,6 +50,23 @@ sub _default_formatter {
     return $json->encode( $value );
 }
 
+=head1 METHODS
+
+=over
+
+=item B<new>( $class, %config )
+
+Instantiates new JavaScript::Console object with given configuration.
+
+Available configuration options:
+
+    * formatter - \&formatter( $value ), returns JavaScript respresentation for the value.
+                                        JSON::XS-based by default.
+
+    * charset   - Charset, utf-8 by default.
+
+=cut
+
 sub new {
     my ( $class, %config ) = @_;
     $class = ref $class  if ref $class;
@@ -77,6 +94,12 @@ sub _console {
     return $self->_console_raw( $name, map { $self->_jarg($_) } @args );
 }
 
+=item B<charset>( $self, $charset )
+
+Gets or sets charset. See L<new> for details.
+
+=cut
+
 sub charset {
     my ( $self, $charset ) = @_;
     return $self->{charset}  unless defined( $charset );
@@ -84,68 +107,142 @@ sub charset {
     return $self;
 }
 
+=item B<output>( $self )
+
+Gets resulting HTML (with script tag if not empty).
+
+=cut
+
 sub output {
     my $self = shift;
 
     return ''  if scalar( $self->{output} ) eq 0;
 
     return ''
-        . "<script charset=\"windows-1251\">(function(console) {"
+        . "<script charset=\"$self->{charset}\" defer>(function(console) {"
         . "if (! console) { return; }"
         . join( '', @{ $self->{output} } )
         . "})(window.console);</script>"
         ;
 }
 
+=item B<log>( $self, @args )
+
+Prints log message with given @args to JavaScript console.
+
+=cut
+
 sub log {
     my $self = shift;
     return $self->_console( 'log', @_ );
 }
+
+=item B<debug>( $self, @args )
+
+Alias for L<log>( @args ).
+
+=cut
 
 sub debug {
     my $self = shift;
     return $self->log( @_ );
 }
 
+=item B<info>( $self, @args )
+
+Prints info message with given @args to JavaScript console.
+
+=cut
+
 sub info {
     my $self = shift;
     return $self->_console( 'info', @_ );
 }
+
+=item B<warn>( $self, @args )
+
+Prints warn message with given @args to JavaScript console.
+
+=cut
 
 sub warn {
     my $self = shift;
     return $self->_console( 'warn', @_ );
 }
 
+=item B<error>( $self, @args )
+
+Prints error message with given @args to JavaScript console.
+
+=cut
+
 sub error {
     my $self = shift;
     return $self->_console( 'error', @_ );
 }
+
+=item B<group>( $self, @args )
+
+Groups next messages in JavaScript console until L<group_end>.
+
+See also L<group_collapsed>.
+
+=cut
 
 sub group {
     my $self = shift;
     return $self->_console('group', @_);
 }
 
+=item B<group_collapsed>( $self, @args )
+
+Groups and collapses by default next messages in JavaScript console until L<group_end>.
+
+See also L<group>.
+
+=cut
+
 sub group_collapsed {
     my $self = shift;
     return $self->_console('groupCollapsed', @_);
 }
+
+=item B<group_end>( $self, @args )
+
+Closes previously opened group of messages in JavaScript console.
+
+See also L<group> and L<group_collapsed>.
+
+=cut
 
 sub group_end {
     my $self = shift;
     return $self->_console('groupEnd', @_);
 }
 
+=item B<dir>( $self, @args )
+
+Low level method to inspect the HTML element.
+
+=cut
+
 sub dir {
     my $self = shift;
     return $self->_console_raw( 'dir', @_ );
 }
 
+=item B<dir_by_id>( $self, $id )
+
+Inspect the HTML element with specified ID.
+
+=cut
+
 sub dir_by_id {
     my ( $self, $id ) = @_;
     return $self->dir( "document.getElementById(". _default_formatter($id). ")" );
 }
+
+=back
 
 =head1 BUGS
 
