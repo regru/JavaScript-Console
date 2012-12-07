@@ -60,7 +60,7 @@ Instantiates new JavaScript::Console object with given configuration.
 
 Available configuration options:
 
-    * formatter - \&formatter( $value ), returns JavaScript respresentation for the value.
+    * formatter - \&formatter( $value ), returns JavaScript representation for the value.
                                         JSON::XS-based by default.
 
     * charset   - Charset, utf-8 by default.
@@ -96,7 +96,7 @@ sub _console {
 
 =item B<charset>( $self, $charset )
 
-Gets or sets charset. See L<new> for details.
+Gets or sets charset. See L</new> for details.
 
 =cut
 
@@ -139,7 +139,7 @@ sub log {
 
 =item B<debug>( $self, @args )
 
-Alias for L<log>( @args ).
+Alias for L</log>( @args ).
 
 =cut
 
@@ -183,9 +183,9 @@ sub error {
 
 =item B<group>( $self, @args )
 
-Groups next messages in JavaScript console until L<group_end>.
+Groups next messages in JavaScript console until L</group_end>.
 
-See also L<group_collapsed>.
+See also L</group_collapsed>.
 
 =cut
 
@@ -196,9 +196,9 @@ sub group {
 
 =item B<group_collapsed>( $self, @args )
 
-Groups and collapses by default next messages in JavaScript console until L<group_end>.
+Groups and collapses by default next messages in JavaScript console until L</group_end>.
 
-See also L<group>.
+See also L</group>.
 
 =cut
 
@@ -211,7 +211,7 @@ sub group_collapsed {
 
 Closes previously opened group of messages in JavaScript console.
 
-See also L<group> and L<group_collapsed>.
+See also L</group> and L</group_collapsed>.
 
 =cut
 
