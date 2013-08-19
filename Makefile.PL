@@ -16,7 +16,7 @@ resources (
    homepage   => 'https://github.com/regru/JavaScript-Console',
    #IRC        => 'irc://irc.perl.org/#JavaScript-Console',
    license    => 'http://www.perlfoundation.org/artistic_license_2_0',
-   repository => 'git@github.com:regru/JavaScript-Console.git',
+   repository => 'https://github.com/regru/JavaScript-Console',
    bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=JavaScript-Console',
 );
 
